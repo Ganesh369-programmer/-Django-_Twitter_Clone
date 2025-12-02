@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+
+{% block title %} Django Twitter {% endblock title %}
+
+{% block content %}
+
+<style>
+    body {
+        background: #0d1117;
+    }
+
+    .tweet-container {
+        max-width: 550px;
+        margin: 50px auto;
+        background: #000000ff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0px 5px 15px rgba(0,0,0,0.4);
+        color: #fff;
+        animation: fadeIn .5s ease-in-out;
+    }
+
+    .tweet-container h1 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 26px;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    form label {
+        font-weight: bold;
+        display: block;
+        margin-top: 12px;
+        margin-bottom: 6px;
+        color: #d9e0e7;
+    }
+
+    form input, form textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        background: #0d1117;
+        color: #fff;
+        border: 1px solid #30363d;
+        transition: .3s;
+    }
+
+    form input:focus,
+    form textarea:focus {
+        border-color: #1d9bf0;
+        box-shadow: 0px 0px 6px rgba(29,155,240,0.7);
+    }
+
+    .submit-btn {
+        width: 100%;
+        display: block;
+        margin-top: 20px;
+        padding: 12px;
+        background: #1d9bf0;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background .3s;
+    }
+
+    .submit-btn:hover {
+        background: #1986d4;
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 18px;
+        color: #58a6ff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: .3s;
+    }
+
+    .back-link:hover {
+        color: #1d9bf0;
+        text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+
+<div class="tweet-container">
+
+    <h1>This is our Twitter Clone</h1>
+
+    <h1>
+        {% if form.instance.pk %}
+            ✏️ Edit Tweet
+        {% else %}
+            📝 Create Tweet
+        {% endif %}
+    </h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <label>{{ field.label }}</label>
+            {{ field }}
+        {% endfor %}
+
+        <button class="submit-btn" type="submit">Submit</button>
+    </form>
+
+    <a href="{% url 'tweet_list' %}" class="back-link">⬅ Back to Tweet List</a>
+
+</div>
+
+{% endblock content %}
